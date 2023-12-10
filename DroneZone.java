@@ -4,6 +4,21 @@ import java.util.Scanner;
 
 public class DroneZone {
 static int[][] grid;
+    //Driver method
+    public static void main(String[] args) {
+        Scanner s= new Scanner(System.in);
+        System.out.println("Enter Grid dimensions ");
+        int x= s.nextInt();
+        int y= s.nextInt();
+        initialiseGrid(x,y);
+        initialiseDrones();
+        System.out.println("Enter Target Coordinates ");
+        int targetX= s.nextInt();
+        int targetY= s.nextInt();
+        for(int i=1;i<=4;i++){
+            findTarget(targetX,targetY,i);
+        }
+    }
 //  Initialising 2D matrix with value 0
 static void initialiseGrid(int x, int y){
     grid= new int[x][y];
@@ -15,35 +30,24 @@ static void initialiseGrid(int x, int y){
 }
 //  Initial Drone positions
 static void initialiseDrones(){
-    grid[1][1]= 1;
-    grid[7][3]= 2;
-    grid[7][9]= 3;
-    grid[10][4]= 4;
-    }
-
-//Driver method
-    public static void main(String[] args) {
     Scanner s= new Scanner(System.in);
-//        int x=11;
-//        int y= 14;
-        System.out.println("Enter Grid dimensions ");
-        int x= s.nextInt();
-        int y= s.nextInt();
-        initialiseGrid(x,y);
-        System.out.println("Enter Target Coordinates ");
-//        int targetX= 4;
-//        int targetY= 11;
-        int targetX= s.nextInt();
-        int targetY= s.nextInt();
-        for(int i=1;i<=4;i++){
-            findTarget(targetX,targetY,i);
+    for(int i=1;i<=4;i++){
+        int x,y;
+        do {
+            System.out.println("Enter coordinates for drone " + i);
+            x = s.nextInt();
+            y = s.nextInt();
+            if (x < 0 || x >= grid.length || y < 0 || y >= grid[0].length) {
+                System.out.println("Coordinates out of bounds. Enter valid coordinates ");
+            }
+        }while (x < 0 || x >= grid.length || y < 0 || y >= grid[0].length) ;
+                grid[x][y] = i;
         }
     }
 
 //BFS traversal
     static void findTarget(int targetX, int targetY, int drone){
-    initialiseDrones();
-//    For moving in left, right, up, down directions
+//    For moving in right, left, up, down directions
     int []dx= {1,-1,0,0};
     int []dy= {0,0,1,-1};
 //  To keep track of previous path coordinates
@@ -107,8 +111,16 @@ static void initialiseDrones(){
         printPath(prevX,prevY, prevX[x][y], prevY[x][y]);
         System.out.print("["+x+","+y+"]");
     }
-
 }
+//        int x=11;
+//        int y= 14;
+//        int targetX= 4;
+//        int targetY= 11;
+//    grid[1][1]= 1;
+//    grid[7][3]= 2;
+//    grid[7][9]= 3;
+//    grid[10][4]= 4;
+
 
 
 
